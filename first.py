@@ -1,5 +1,5 @@
 #For the love of god...
-import pygame, sys
+import pygame, sys, random
 from pygame.locals import *
 
 print("Prepare for launch!")
@@ -41,7 +41,29 @@ pygame.draw.line(window_surface, BLUE, (4, 5), (530, 470), 4)
 pygame.draw.line(window_surface, BLUE, (40, 15), (530, 70), 2)
 pygame.draw.circle(window_surface, RED, (230, 240), 80)
 
-window_surface.blit(text, textRect)
+tree_points_y = [0]
+tree_points_x = []
+tree_big = 24
+
+for i in range(tree_big):
+    tree_points_y.append(tree_points_y[i] + random.randint(int(tree_big/4), tree_big))
+
+for i in range(tree_big):
+    if len(tree_points_x) == 0:
+        tree_points_x.append(random.randint(-16, 16))
+    else:
+        tree_points_x.append(tree_points_x[i-1] + random.randint(-16, 16))
+
+
+tree_root = (240, 470)
+
+for i in range(tree_big-1):
+    pygame.draw.line(window_surface, GREEN, 
+                    (tree_root[0]+tree_points_x[i], 
+                    tree_root[1]-tree_points_y[i]),  
+                    (tree_root[0]+tree_points_x[i+1], 
+                    tree_root[1]-tree_points_y[i+1]),
+                    tree_big-i)
 
 pygame.display.update()
 
