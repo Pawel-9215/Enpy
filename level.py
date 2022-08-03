@@ -4,43 +4,54 @@ from tile import Tile
 from player import Player
 from debug import debug
 
+
 class Level:
     def __init__(self) -> None:
-        
+
+        self.player = None
         self.display_surface = pygame.display.get_surface()
-        
-        #sprite groups setup
+
+        # sprite groups setup
         self.visible_sprites = YSortCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
-        
-        #sprite setup
+
+        # sprite setup
         self.create_map()
-        
+
     def create_map(self):
-        
+
         for row_index, row in enumerate(WORLD_MAP):
             for column_index, column in enumerate(row):
-                x = column_index*TILE_SIZE
-                y = row_index*TILE_SIZE
+                x = column_index * TILE_SIZE
+                y = row_index * TILE_SIZE
                 if column == 'x':
-                    Tile((x, y), [self.visible_sprites, self.obstacle_sprites])
+                    Tile((x, y), (self.visible_sprites, self.obstacle_sprites))
                 if column == 'p':
-                   self.player = Player((x, y), [self.visible_sprites], self.obstacle_sprites)
-            
-        
+                    self.player = Player((x, y), self.visible_sprites, self.obstacle_sprites)
+
     def run(self):
-        self.visible_sprites.custom_draw()
+        self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
         debug(self.player.direction)
-        #update and run the game
+        # update and run the game
         pass
-    
+
+
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self) -> None:
         super().__init__()
         self.display_surface = pygame.display.get_surface()
+        self.half_width = self.display_surface.get_size()[0] // 2
+        self.half_height = self.display_surface.get_size()[1] // 2
         self.offset = pygame.math.Vector2()
-        
-    def custom_draw(self):
-        for sprite in self.sprites():
-            self.display_surface.blit(sprite.image, sprite.rect)
+
+    def custom_draw(self, player):
+
+        # getting offset from player
+        self.offset.x = player.rect.centerx - self.half_width
+        self.offset.y = player.rect.centery - self.half_height
+
+        #for sprite in self.sprites():
+        for sprite in sorted(self.sprites(), key = lambda sprite: sprite.hitbox.centery):
+            offset_pos = sprite.rect.topleft - self.offset
+            self.display_surface.blit(sprite.image, offset_pos)
