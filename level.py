@@ -29,13 +29,13 @@ class Level:
         for layer in tmx_data.visible_layers:
             if layer.name in ('base_ground', 'road'):
                 for x, y, surf in layer.tiles():
-                    Tile((x*TILE_SIZE, y*TILE_SIZE), surf, (self.ground_sprites))
+                    Tile((x*TILE_SIZE, y*TILE_SIZE), (self.ground_sprites), surf)
             elif layer.name in ('plants_and_rocks', 'buildings'):
                 for x, y, surf in layer.tiles():
-                    Tile((x*TILE_SIZE, y*TILE_SIZE), surf, (self.visible_sprites))
+                    Tile((x*TILE_SIZE, y*TILE_SIZE), (self.visible_sprites), surf)
             elif layer.name in ('blockers'):
                 for x, y, surf in layer.tiles():
-                    Tile((x*TILE_SIZE, y*TILE_SIZE), surf, (self.obstacle_sprites))
+                    Tile((x*TILE_SIZE, y*TILE_SIZE), (self.obstacle_sprites), surf)
 
         for obj in tmx_data.objects:
             if obj.name == "player_start":
@@ -46,7 +46,7 @@ class Level:
         self.ground_sprites.custom_draw(self.player)
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
-        debug(self.player.direction)
+        #debug(self.player.direction)
         # update and run the game
         pass
         
@@ -69,6 +69,7 @@ class CameraGroup(pygame.sprite.Group):
         for sprite in self.sprites():
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)
+            sprite.animate()
 
 
 class YSortCameraGroup(CameraGroup):

@@ -3,6 +3,7 @@ import sys
 
 from level import Level
 from settings import *
+from debug import debug
 
 
 class Engine:
@@ -27,6 +28,7 @@ class Engine:
 
             self.screen.fill('black')
             self.level.run()
+            debug(self.clock.get_fps())
             pygame.display.update()
             self.clock.tick(FPS)
 
