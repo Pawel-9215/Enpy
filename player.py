@@ -1,14 +1,20 @@
+from ntpath import join
 import pygame
 from settings import *
+import os
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, obstacle_sprites) -> None:
         super().__init__(groups)
+        self.tile_size = 16
         self.image = pygame.image.load('./gfx/test/player1.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(-16, -32)
         self.hitbox.bottom = self.rect.bottom
+
+        #graphics setup
+        self.import_player_assets()
 
         self.direction = pygame.math.Vector2()
         self.speed = 4
@@ -22,8 +28,14 @@ class Player(pygame.sprite.Sprite):
     def import_player_assets(self):
         character_path = './gfx/player'
 
+        walking = pygame.image.load(os.path.join(character_path, "Walk.png")).convert_alpha()
+
         self.animations = {'up':[], 'down':[], 'left':[], 'right':[],
-        'right_idle':[], 'left_idle':[], 'up_idle':[]}
+            'right_idle':[], 'left_idle':[], 'up_idle':[], "down_idle":[],
+            'right_attack': [], 'left_attack': [], 'up_attack':[], 'down_attack':[]}
+
+        for animation in self.animations:
+            print(animation)
 
     def input(self):
         keys = pygame.key.get_pressed()
