@@ -48,6 +48,7 @@ class Level:
         self.visible_sprites.update()
         #debug(self.player.direction)
         # update and run the game
+        debug(self.player.status)
         pass
         
 
