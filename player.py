@@ -23,6 +23,8 @@ class Player(pygame.sprite.Sprite):
         self.speed = 4
 
         self.state = {1: "move"}
+        
+        self.attacking = False
         self.attack_cooldown = 400
         self.attack_time = None
 
