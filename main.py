@@ -13,7 +13,7 @@ class Engine:
     def __init__(self) -> None:
 
         # general setup for pygame
-        self.screen = pygame.display.set_mode(RESOLUTION)
+        self.screen = pygame.display.set_mode(RESOLUTION, pygame.RESIZABLE, pygame.SCALED)
         self.clock = pygame.time.Clock()
         self.level = Level()
 
@@ -25,6 +25,10 @@ class Engine:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+                if event.type == pygame.VIDEORESIZE:
+                    self.screen = pygame.display.set_mode((event.w, event.h), pygame.SCALED)
+                    pygame.display.update()
 
             self.screen.fill('black')
             self.level.run()

@@ -30,7 +30,7 @@ class Level:
             if layer.name in ('base_ground', 'road'):
                 for x, y, surf in layer.tiles():
                     Tile((x*TILE_SIZE, y*TILE_SIZE), (self.ground_sprites), surf)
-            elif layer.name in ('plants_and_rocks', 'buildings'):
+            elif layer.name in ('plants_and_rocks'):
                 for x, y, surf in layer.tiles():
                     Tile((x*TILE_SIZE, y*TILE_SIZE), (self.visible_sprites), surf)
             elif layer.name in ('blockers'):
@@ -40,6 +40,8 @@ class Level:
         for obj in tmx_data.objects:
             if obj.name == "player_start":
                 self.player = Player((obj.x, obj.y), self.visible_sprites, self.obstacle_sprites)
+            else:
+                Tile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
 
     def run(self):
 

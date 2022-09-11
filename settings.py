@@ -2,9 +2,10 @@
 
 TITLE = "Zelda - like"
 
-RESOLUTION = [1024, 768]
+RESOLUTION = [640, 480]
 FPS = 60
 TILE_SIZE = 64
+TILE_COLLISION = 16
 
 WORLD_MAP = [
 ["x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"],
