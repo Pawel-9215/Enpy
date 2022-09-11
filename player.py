@@ -29,7 +29,7 @@ class Player(pygame.sprite.Sprite):
         self.status = 'down_move'
 
         self.direction = pygame.math.Vector2()
-        self.speed = 4
+        self.speed = 2
         
         self.state = State.MOVE
 

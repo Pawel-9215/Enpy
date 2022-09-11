@@ -1,10 +1,12 @@
-Buildings that take more than one cell need to be objects not tiles for proper y-sort - otherwise player clips via top cells
-collsision object should fill in thier cells more fully to avoid creating "invisible wall" feeling
-Player collision box should be customizable individually.
+Buildings that take more than one cell need to be objects not tiles for proper y-sort - otherwise player clips via top cells - done
 
-Refactor animation system, because the one in tutorial is just awful. Use somekind of simple state machine.
+collsision object should fill in thier cells more fully to avoid creating "invisible wall" feeling - separate small collision boxes
 
-Find solution for getting close to borders - should camera stop or should I just have extra unreachable level area
+Player collision box should be customizable individually. - lets use standard half height for all objects
+
+Refactor animation system, because the one in tutorial is just awful. Use somekind of simple state machine. - Done
+
+Find solution for getting close to borders -  I just have extra unreachable level area
 
 Make movement with acceleration and breaking instead of current 01
 

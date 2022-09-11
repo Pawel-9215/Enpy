@@ -1,6 +1,6 @@
 import pygame
 from settings import *
-from tile import Tile
+from tile import Tile, BottomTile, WaterTile
 from player import Player
 from debug import debug
 from pytmx.util_pygame import load_pygame
@@ -32,16 +32,23 @@ class Level:
                     Tile((x*TILE_SIZE, y*TILE_SIZE), (self.ground_sprites), surf)
             elif layer.name in ('plants_and_rocks'):
                 for x, y, surf in layer.tiles():
-                    Tile((x*TILE_SIZE, y*TILE_SIZE), (self.visible_sprites), surf)
-            elif layer.name in ('blockers'):
+                    BottomTile((x*TILE_SIZE, y*TILE_SIZE), (self.visible_sprites), surf)
+            elif layer.name == 'large_blockers':
+                #print(layer)
                 for x, y, surf in layer.tiles():
-                    Tile((x*TILE_SIZE, y*TILE_SIZE), (self.obstacle_sprites), surf)
+                   Tile((x*TILE_SIZE, y*TILE_SIZE), (self.obstacle_sprites), surf)
+            elif layer.name == 'water':
+                #print(layer)
+                for x, y, surf in layer.tiles():
+                   WaterTile((x*TILE_SIZE, y*TILE_SIZE), (self.visible_sprites), surf)
 
         for obj in tmx_data.objects:
             if obj.name == "player_start":
                 self.player = Player((obj.x, obj.y), self.visible_sprites, self.obstacle_sprites)
-            else:
-                Tile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
+            elif obj.name == "bulding":
+                BottomTile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
+            elif obj.name == "blocker":
+                Tile((obj.x, obj.y), self.obstacle_sprites, surf = obj.image)
 
     def run(self):
 

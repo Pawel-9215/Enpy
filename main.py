@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 import sys
 
 from level import Level
@@ -13,7 +14,7 @@ class Engine:
     def __init__(self) -> None:
 
         # general setup for pygame
-        self.screen = pygame.display.set_mode(RESOLUTION, pygame.RESIZABLE, pygame.SCALED)
+        self.screen = pygame.display.set_mode(RESOLUTION, HWSURFACE|DOUBLEBUF|RESIZABLE|SCALED)
         self.clock = pygame.time.Clock()
         self.level = Level()
 
@@ -26,9 +27,7 @@ class Engine:
                     pygame.quit()
                     sys.exit()
 
-                if event.type == pygame.VIDEORESIZE:
-                    self.screen = pygame.display.set_mode((event.w, event.h), pygame.SCALED)
-                    pygame.display.update()
+                
 
             self.screen.fill('black')
             self.level.run()

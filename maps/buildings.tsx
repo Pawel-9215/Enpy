@@ -4,7 +4,7 @@
  <tile id="0">
   <image width="125" height="101" source="buildings/house2.png"/>
  </tile>
- <tile id="1">
+ <tile id="1" x="0" y="0" width="92" height="121">
   <image width="102" height="121" source="buildings/house3.png"/>
  </tile>
  <tile id="2">
