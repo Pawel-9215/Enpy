@@ -4,6 +4,7 @@ from tile import Tile, BottomTile, WaterTile
 from player import Player
 from debug import debug
 from pytmx.util_pygame import load_pygame
+from weapon import Weapon
 
 
 class Level:
@@ -44,11 +45,14 @@ class Level:
 
         for obj in tmx_data.objects:
             if obj.name == "player_start":
-                self.player = Player((obj.x, obj.y), self.visible_sprites, self.obstacle_sprites)
+                self.player = Player((obj.x, obj.y), self.visible_sprites, self.obstacle_sprites, self.create_attak)
             elif obj.name == "bulding":
                 BottomTile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
             elif obj.name == "blocker":
                 Tile((obj.x, obj.y), self.obstacle_sprites, surf = obj.image)
+
+    def create_attak(self):
+        Weapon(self.player, [self.visible_sprites])
 
     def run(self):
 

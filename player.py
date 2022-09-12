@@ -12,7 +12,7 @@ class State(Enum):
     DEAD = 3
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, obstacle_sprites) -> None:
+    def __init__(self, pos, groups, obstacle_sprites, create_attack) -> None:
         super().__init__(groups)
         self.tile_size = 16
         self.image = pygame.image.load('./gfx/player/down_idle/down_idle_001.png').convert_alpha()
@@ -36,6 +36,7 @@ class Player(pygame.sprite.Sprite):
         #self.attacking = False #deprecated
         self.attack_cooldown = 400
         self.attack_time = None
+        self.create_attack = create_attack
 
         self.obstacle_sprites = obstacle_sprites
 
@@ -77,8 +78,7 @@ class Player(pygame.sprite.Sprite):
             
             self.attack_time = pygame.time.get_ticks()
             self.change_state(State.ATTACK)
-            print('attack')
-
+            self.create_attack()
         #magic input
         if keys[pygame.K_LCTRL]:
             #self.attacking = True
