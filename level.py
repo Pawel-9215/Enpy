@@ -18,6 +18,9 @@ class Level:
         self.visible_sprites = YSortCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
 
+        #attack sprites
+        self.current_attack = None
+
         # sprite setup
         self.create_map()
 
@@ -45,14 +48,21 @@ class Level:
 
         for obj in tmx_data.objects:
             if obj.name == "player_start":
-                self.player = Player((obj.x, obj.y), self.visible_sprites, self.obstacle_sprites, self.create_attak)
+                self.player = Player((obj.x, obj.y), self.visible_sprites, self.obstacle_sprites, self.create_attak, self.end_attack)
             elif obj.name == "bulding":
                 BottomTile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
             elif obj.name == "blocker":
                 Tile((obj.x, obj.y), self.obstacle_sprites, surf = obj.image)
 
     def create_attak(self):
-        Weapon(self.player, [self.visible_sprites])
+        self.current_attack = Weapon(self.player, [self.visible_sprites])
+
+    def end_attack(self):
+        if self.current_attack:
+            self.current_attack.kill()
+            print('attack finished')
+        self.current_attack = None
+        
 
     def run(self):
 

@@ -12,7 +12,7 @@ class State(Enum):
     DEAD = 3
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, obstacle_sprites, create_attack) -> None:
+    def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack) -> None:
         super().__init__(groups)
         self.tile_size = 16
         self.image = pygame.image.load('./gfx/player/down_idle/down_idle_001.png').convert_alpha()
@@ -37,8 +37,13 @@ class Player(pygame.sprite.Sprite):
         self.attack_cooldown = 400
         self.attack_time = None
         self.create_attack = create_attack
+        self.end_attack = end_attack
 
         self.obstacle_sprites = obstacle_sprites
+
+        #equipment
+        self.weapon_index = 0
+        self.weapon = list(weapon_data.keys())[self.weapon_index]
 
     def import_player_assets(self):
         character_path = './gfx/player'
@@ -84,6 +89,13 @@ class Player(pygame.sprite.Sprite):
             #self.attacking = True
             self.attack_time = pygame.time.get_ticks()
             print('magic')
+
+        #toggle weapon
+        if keys[pygame.K_q]:
+            print('toggle weapon')
+            weapon_amount = len(list(weapon_data.keys()))
+            
+
 
     def get_status(self):
         #idle
@@ -146,6 +158,7 @@ class Player(pygame.sprite.Sprite):
             if current_time - self.attack_time >= self.attack_cooldown:
                 #self.attacking = False
                 self.change_state(State.MOVE)
+                self.end_attack()
 
     def animate(self):
         animation = self.animations[self.status]
