@@ -13,7 +13,7 @@ class Engine:
 
     def __init__(self) -> None:
 
-        # general setup for pygame
+        # general setup for pygameq
         self.screen = pygame.display.set_mode(RESOLUTION, HWSURFACE|DOUBLEBUF|RESIZABLE|SCALED)
         self.clock = pygame.time.Clock()
         self.level = Level()

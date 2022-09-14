@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(-4, -8)
         self.hitbox.bottom = self.rect.bottom
+        self.buttons_pressed = []
 
         self.frame_index = 0
         self.animation_speed = 0.15
@@ -84,6 +85,8 @@ class Player(pygame.sprite.Sprite):
             self.attack_time = pygame.time.get_ticks()
             self.change_state(State.ATTACK)
             self.create_attack()
+
+            print(self.buttons_pressed)
         #magic input
         if keys[pygame.K_LCTRL]:
             #self.attacking = True
@@ -91,9 +94,18 @@ class Player(pygame.sprite.Sprite):
             print('magic')
 
         #toggle weapon
-        if keys[pygame.K_q]:
+        if keys[pygame.K_q] and pygame.K_q not in self.buttons_pressed:
+            
+            self.buttons_pressed.append(pygame.K_q)
             print('toggle weapon')
             weapon_amount = len(list(weapon_data.keys()))
+            self.weapon_index += 1
+            if self.weapon_index >= weapon_amount:
+                self.weapon_index = 0
+            self.weapon = list(weapon_data.keys())[self.weapon_index]
+
+        elif not keys[pygame.K_q] and pygame.K_q in self.buttons_pressed:
+            self.buttons_pressed.remove(pygame.K_q)
             
 
 
