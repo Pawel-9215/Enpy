@@ -46,6 +46,13 @@ class Player(pygame.sprite.Sprite):
         self.weapon_index = 0
         self.weapon = list(weapon_data.keys())[self.weapon_index]
 
+        #stats
+        self.stats = {'health': 100, 
+                'energy': 60, 
+                'attack': 10, 
+                'magic': 6, 
+                'speed':6}
+
     def import_player_assets(self):
         character_path = './gfx/player'
 
