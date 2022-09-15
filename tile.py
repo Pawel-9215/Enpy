@@ -1,4 +1,3 @@
-from turtle import update
 import pygame
 from settings import *
 from support import import_folder
