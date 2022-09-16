@@ -52,9 +52,10 @@ class Player(pygame.sprite.Sprite):
                 'magic': 6, 
                 'speed': 2}
 
-        self.health = self.stats['health']
-        self.energy = self.stats['energy']
+        self.health = self.stats['health'] // 2
+        self.energy = self.stats['energy'] // 2
         self.exp = 12
+        self.next_level = 18
         self.speed = self.stats['speed']
 
 
