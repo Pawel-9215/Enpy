@@ -30,7 +30,6 @@ class Player(pygame.sprite.Sprite):
         self.status = 'down_move'
 
         self.direction = pygame.math.Vector2()
-        self.speed = 2
         
         self.state = State.MOVE
 
@@ -51,7 +50,13 @@ class Player(pygame.sprite.Sprite):
                 'energy': 60, 
                 'attack': 10, 
                 'magic': 6, 
-                'speed':6}
+                'speed': 2}
+
+        self.health = self.stats['health']
+        self.energy = self.stats['energy']
+        self.exp = 12
+        self.speed = self.stats['speed']
+
 
     def import_player_assets(self):
         character_path = './gfx/player'
