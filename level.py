@@ -5,6 +5,7 @@ from player import Player
 from debug import debug
 from pytmx.util_pygame import load_pygame
 from weapon import Weapon
+from ui import UI
 
 
 class Level:
@@ -23,6 +24,9 @@ class Level:
 
         # sprite setup
         self.create_map()
+
+        #user interface
+        self.ui = UI()
 
     def create_map(self):
         """_summary_
@@ -72,6 +76,7 @@ class Level:
         #debug(self.player.direction)
         # update and run the game
         #debug(self.player.status)
+        self.ui.display(self.player)
         pass
         
 
