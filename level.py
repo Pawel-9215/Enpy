@@ -96,9 +96,10 @@ class CameraGroup(pygame.sprite.Group):
 
         #for sprite in self.sprites():
         for sprite in self.sprites():
-            offset_pos = sprite.rect.topleft - self.offset
-            self.display_surface.blit(sprite.image, offset_pos)
-            sprite.animate()
+            if (pygame.Vector2(sprite.rect.center) - pygame.Vector2(player.rect.center)).length() < RENDER_DIST:
+                offset_pos = sprite.rect.topleft - self.offset
+                self.display_surface.blit(sprite.image, offset_pos)
+                sprite.animate()
 
 
 class YSortCameraGroup(CameraGroup):
@@ -117,5 +118,6 @@ class YSortCameraGroup(CameraGroup):
 
         #for sprite in self.sprites():
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.hitbox.centery):
-            offset_pos = sprite.rect.topleft - self.offset
-            self.display_surface.blit(sprite.image, offset_pos)
+            if (pygame.Vector2(sprite.rect.center) - pygame.Vector2(player.rect.center)).length() < RENDER_DIST:
+                offset_pos = sprite.rect.topleft - self.offset
+                self.display_surface.blit(sprite.image, offset_pos)
