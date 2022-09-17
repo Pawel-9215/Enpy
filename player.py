@@ -45,6 +45,10 @@ class Player(pygame.sprite.Sprite):
         self.weapon_index = 0
         self.weapon = list(weapon_data.keys())[self.weapon_index]
 
+        #magic
+        self.magic_index = 0
+        self.magic = lsit(magic_data.keys())[self.magic_index]
+
         #stats
         self.stats = {'health': 100, 
                 'energy': 60, 

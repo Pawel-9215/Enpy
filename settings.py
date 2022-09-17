@@ -14,6 +14,11 @@ weapon_data = {
     'rapier': {'cooldown': 40, 'damage': 10, 'graphic': './gfx/weapons/rapier/'},
 }
 
+magic_data = {
+    'flame': {'strength': 5, 'cost': 20, 'graphic': './gfx/magic/flame/'},
+    'heal': {'strength': 15, 'cost': 20, 'graphic': './gfx/magic/heal/'}
+}
+
 # UI settings
 BAR_HEIGHT = 4
 HEALTH_BAR_WIDTH = 114
