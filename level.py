@@ -6,6 +6,7 @@ from debug import debug
 from pytmx.util_pygame import load_pygame
 from weapon import Weapon
 from ui import UI
+from water import Water
 
 
 class Level:
@@ -46,9 +47,8 @@ class Level:
                 for x, y, surf in layer.tiles():
                    Tile((x*TILE_SIZE, y*TILE_SIZE), (self.obstacle_sprites), surf)
             elif layer.name == 'water':
-                #print(layer)
                 for x, y, surf in layer.tiles():
-                   WaterTile((x*TILE_SIZE, y*TILE_SIZE), (self.visible_sprites), surf)
+                    self.ground_sprites.water_group.append(Water((x*TILE_SIZE, y*TILE_SIZE)))
 
         for obj in tmx_data.objects:
             if obj.name == "player_start":
@@ -88,11 +88,22 @@ class CameraGroup(pygame.sprite.Group):
         self.half_height = self.display_surface.get_size()[1] // 2
         self.offset = pygame.math.Vector2()
 
-    def custom_draw(self, player):
+        self.water_group = []
 
+    def water_draw(self, player, offset):
+
+        #for sprite in self.sprites():
+        for water in self.water_group:
+            water.update()
+            water.render(self.offset, self.display_surface)
+
+    def custom_draw(self, player):
+        
         # getting offset from player
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
+
+        self.water_draw(player, self.offset)
 
         #for sprite in self.sprites():
         for sprite in self.sprites():

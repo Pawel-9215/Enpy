@@ -26,9 +26,7 @@ class Engine:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-
                 
-
             self.screen.fill('black')
             self.level.run()
             #debug(self.clock.get_fps())
