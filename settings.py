@@ -6,7 +6,7 @@ RESOLUTION = [640, 480]
 FPS = 60
 TILE_SIZE = 64
 TILE_COLLISION = 16
-RENDER_DIST = 512
+RENDER_DIST = 768
 
 weapon_data = {
     'sword': {'cooldown': 80, 'damage': 15, 'graphic': './gfx/weapons/sword/'},

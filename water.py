@@ -6,7 +6,8 @@ class Water():
     def __init__(self, pos) -> None:
         self.position = pygame.Vector2(pos)
         self.base_water_color = '#3D897B'
-        self.water_colors = ['#3D897B', '#3D897D', '#3D897F', '#3D897A']
+        self.water_colors = ['#49A188', '#40978D', '#5B8F81', '#4E9D9E', '#52958A', '#46947B']
+        self.hilight = '#6DBDAF'
         self.my_color = self.water_colors[random.randint(0, len(self.water_colors)-1)]
         self.displacement = 32 + random.randint(-4, 4)
 
@@ -16,6 +17,12 @@ class Water():
         self.anim_mod = random.randint(15, 25)*0.1
         self.anim_frame = 0
         self.frame_speed = random.randint(10, 25)*0.01
+        self.thickness = random.randint(1, 3)
+
+        self.thins = random.randint(1,3)
+
+        self.hi_off = pygame.Vector2(-64, 6)
+        self.low_off = pygame.Vector2(64, -6)
         
         self.points = []
         self.direction = [random.randint(0, 1)]
@@ -24,8 +31,8 @@ class Water():
 
     def populate(self):
 
-        full_lenght = random.randint(4, 8)
-        step = (TILE_SIZE // full_lenght) * 2
+        full_lenght = random.randint(6, 16)
+        step = (TILE_SIZE // full_lenght) * 6
         for i in range(full_lenght):
             self.points.append(pygame.Vector2(self.position.x + i*step, self.position.y+self.displacement))
 
@@ -65,5 +72,8 @@ class Water():
         
         
         for i in range(0, len(self.points)-2, 2):
-            #pygame.draw.circle(display, self.base_water_color, self.points[i]-offset, 5)
-            pygame.draw.line(display, self.my_color, self.points[i]-offset, self.points[i+2]-offset, 64)
+            #pygame.draw.circle(display, self.my_color, self.points[i]-offset, 32)
+            pygame.draw.line(display, self.my_color, self.points[i]-offset, self.points[i+2]-offset, self.thickness)
+
+            pygame.draw.line(display, self.hilight, self.points[i]-offset+self.low_off, self.points[i+2]-offset+self.low_off, self.thins)
+            pygame.draw.line(display, self.hilight, self.points[i]-offset+self.hi_off, self.points[i+2]-offset+self.hi_off, self.thins)
