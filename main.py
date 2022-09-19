@@ -27,7 +27,7 @@ class Engine:
                     pygame.quit()
                     sys.exit()
                 
-            self.screen.fill('black')
+            self.screen.fill('#3D897B')
             self.level.run()
             #debug(self.clock.get_fps())
             pygame.display.update()
