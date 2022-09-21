@@ -161,7 +161,7 @@ class Player(pygame.sprite.Sprite):
         elif self.direction.y > 0:
             self.facing = "down"
 
-        debug("\n\n"+str(self.direction))
+        #debug("\n\n"+str(self.direction))
 
     def collision(self, direction):
         if direction == 'horizontal':

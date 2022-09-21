@@ -94,8 +94,9 @@ class CameraGroup(pygame.sprite.Group):
 
         #for sprite in self.sprites():
         for water in self.water_group:
-            water.update()
-            water.render(self.offset, self.display_surface)
+            if (water.position - pygame.Vector2(player.rect.center)).length() < RENDER_DIST:
+                water.update()
+                water.render(self.offset, self.display_surface)
 
     def custom_draw(self, player):
         
