@@ -14,11 +14,17 @@ class UI:
         self.hud_img = pygame.image.load('./gfx/ui/ui_main_hud.png').convert_alpha()
 
         self.weapon_graphics = []
+        self.magic_graphics = []
 
         for weapon in weapon_data.values():
             path = weapon['graphic']+"Sprite.png"
             weapon = pygame.image.load(path).convert_alpha()
             self.weapon_graphics.append(weapon)
+
+        for magic in magic_data.values():
+            path = magic['graphic']+'sprite.png'
+            magic = pygame.image.load(path).convert_alpha()
+            self.magic_graphics.append(magic)
 
     def show_bar(self, current, max_amount, bg_rect, color):
         #draw bg
@@ -39,6 +45,12 @@ class UI:
 
         self.display_surface.blit(weapon_surf, weapon_rect)
 
+    def magic_selection(self, magic_index):
+        magic_surf = self.magic_graphics[magic_index]
+        magic_rect = magic_surf.get_rect(center = (16, RESOLUTION[1] - (23+16+20)))
+
+        self.display_surface.blit(magic_surf, magic_rect)
+
 
     def display(self, player):
         #health bar
@@ -50,3 +62,4 @@ class UI:
         self.display_surface.blit(self.hud_img, (16, RESOLUTION[1]-16-hud_height))
 
         self.weapon_selection(player.weapon_index)
+        self.magic_selection(player.magic_index)

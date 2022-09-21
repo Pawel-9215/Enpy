@@ -12,7 +12,7 @@ class State(Enum):
     DEAD = 3
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack) -> None:
+    def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack, create_magic) -> None:
         super().__init__(groups)
         self.tile_size = 16
         self.image = pygame.image.load('./gfx/player/down_idle/down_idle_001.png').convert_alpha()
@@ -48,6 +48,7 @@ class Player(pygame.sprite.Sprite):
         #magic
         self.magic_index = 0
         self.magic = list(magic_data.keys())[self.magic_index]
+        self.create_magic = create_magic
 
         #stats
         self.stats = {'health': 100, 
@@ -103,12 +104,17 @@ class Player(pygame.sprite.Sprite):
             self.change_state(State.ATTACK)
             self.create_attack()
 
-            print(self.buttons_pressed)
         #magic input
-        if keys[pygame.K_LCTRL]:
+        if keys[pygame.K_LCTRL] and pygame.K_LCTRL not in self.buttons_pressed:
+            self.buttons_pressed.append(pygame.K_LCTRL)
             #self.attacking = True
             self.attack_time = pygame.time.get_ticks()
-            print('magic')
+            self.create_magic(self.magic, 
+                    magic_data[self.magic]['strength']+self.stats['magic'], 
+                    magic_data[self.magic]['cost'])
+
+        elif not keys[pygame.K_LCTRL] and pygame.K_LCTRL in self.buttons_pressed:
+            self.buttons_pressed.remove(pygame.K_LCTRL)
 
         #toggle weapon
         if keys[pygame.K_q] and pygame.K_q not in self.buttons_pressed:
@@ -123,6 +129,20 @@ class Player(pygame.sprite.Sprite):
 
         elif not keys[pygame.K_q] and pygame.K_q in self.buttons_pressed:
             self.buttons_pressed.remove(pygame.K_q)
+
+        #toggle magic
+        if keys[pygame.K_e] and pygame.K_e not in self.buttons_pressed:
+            
+            self.buttons_pressed.append(pygame.K_e)
+            print('toggle magic')
+            magic_amount = len(list(magic_data.keys()))
+            self.magic_index += 1
+            if self.magic_index >= magic_amount:
+                self.magic_index = 0
+            self.magic = list(magic_data.keys())[self.magic_index]
+
+        elif not keys[pygame.K_e] and pygame.K_e in self.buttons_pressed:
+            self.buttons_pressed.remove(pygame.K_e)
             
 
 

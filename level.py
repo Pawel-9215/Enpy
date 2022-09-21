@@ -52,7 +52,12 @@ class Level:
 
         for obj in tmx_data.objects:
             if obj.name == "player_start":
-                self.player = Player((obj.x, obj.y), self.visible_sprites, self.obstacle_sprites, self.create_attak, self.end_attack)
+                self.player = Player((obj.x, obj.y), 
+                        self.visible_sprites, 
+                        self.obstacle_sprites, 
+                        self.create_attak, 
+                        self.end_attack,
+                        self.create_magic)
             elif obj.name == "bulding":
                 BottomTile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
             elif obj.name == "blocker":
@@ -67,6 +72,10 @@ class Level:
             print('attack finished')
         self.current_attack = None
         
+    def create_magic(self, style, strength, cost):
+        print(style)
+        print(strength)
+        print(cost)
 
     def run(self):
 
