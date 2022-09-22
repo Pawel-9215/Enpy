@@ -8,6 +8,7 @@ TILE_SIZE = 64
 TILE_COLLISION = 16
 RENDER_DIST = 512
 
+#weapons
 weapon_data = {
     'sword': {'cooldown': 80, 'damage': 15, 'graphic': './gfx/weapons/sword/'},
     'axe': {'cooldown': 150, 'damage': 20, 'graphic': './gfx/weapons/axe/'},
@@ -15,10 +16,13 @@ weapon_data = {
     'rapier': {'cooldown': 40, 'damage': 10, 'graphic': './gfx/weapons/rapier/'},
 }
 
+#magic
 magic_data = {
     'flame': {'strength': 5, 'cost': 20, 'graphic': './gfx/magic/flame/'},
     'heal': {'strength': 15, 'cost': 20, 'graphic': './gfx/magic/heal/'}
 }
+
+
 
 # UI settings
 BAR_HEIGHT = 4
