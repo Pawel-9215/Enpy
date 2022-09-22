@@ -7,6 +7,7 @@ from pytmx.util_pygame import load_pygame
 from weapon import Weapon
 from ui import UI
 from water import Water
+from enemy import Enemy
 
 
 class Level:
@@ -58,6 +59,8 @@ class Level:
                         self.create_attak, 
                         self.end_attack,
                         self.create_magic)
+            elif obj.name == "undead":
+                Enemy(obj.name, (obj.x, obj.y), self.visible_sprites, self.obstacle_sprites)
             elif obj.name == "bulding":
                 BottomTile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
             elif obj.name == "blocker":
