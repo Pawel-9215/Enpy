@@ -7,11 +7,6 @@ from debug import debug
 from enum import Enum
 from entity import Entity
 
-class State(Enum):
-    MOVE = 1
-    ATTACK = 2
-    DEAD = 3
-
 class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack, create_magic) -> None:
         super().__init__(groups)

@@ -1,4 +1,5 @@
 #all game settings shouild live in here
+from enum import Enum
 
 TITLE = "Zelda - like"
 
@@ -42,3 +43,8 @@ HEALTH_COLOR = '#E86633'
 ENERGY_COLOR = '#1ECAEB'
 EXP_POINT_COLOR = '#D0D075'
 BAR_BG_COLOR = '#4F4F50'
+
+class State(Enum):
+    MOVE = 1
+    ATTACK = 2
+    DEAD = 3
