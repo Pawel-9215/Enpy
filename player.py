@@ -10,12 +10,14 @@ from entity import Entity
 class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack, create_magic) -> None:
         super().__init__(groups)
+        self.sprite_type = 'player'
         self.tile_size = 16
         self.image = pygame.image.load('./gfx/player/down_idle/down_idle_001.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(-4, -8)
         self.hitbox.bottom = self.rect.bottom
         self.buttons_pressed = []
+        self.set_position()
 
         #graphics setup
         self.import_player_assets()
@@ -46,7 +48,7 @@ class Player(Entity):
                 'energy': 60, 
                 'attack': 10, 
                 'magic': 6, 
-                'speed': 2}
+                'speed': 1}
 
         self.health = self.stats['health'] // 2
         self.energy = self.stats['energy'] // 2
@@ -174,6 +176,7 @@ class Player(Entity):
         self.state = state
 
     def update(self):
+        debug(self.hitbox.center)
         match self.state:
             case State.MOVE:
                 self.move_state()
