@@ -19,7 +19,12 @@ class Enemy(Entity):
         self.hitbox.bottom = self.rect.bottom
 
     def import_graphics(self):
-        self.animations = {'idle':[], 'move': [], 'attack': []}
+
+        self.animations = {'up_move':[], 'down_move':[], 'left_move':[], 'right_move':[],
+            'right_idle':[], 'left_idle':[], 'up_idle':[], "down_idle":[],
+            'right_attack': [], 'left_attack': [], 'up_attack':[], 'down_attack':[], 
+            'dead':[]}
+
         main_path = f'./gfx/monsters/{self.name}/'
         for animation in self.animations.keys():
             self.animations[animation] = import_folder(main_path + animation)
