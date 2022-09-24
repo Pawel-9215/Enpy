@@ -6,6 +6,7 @@ import random
 class Tile(pygame.sprite.Sprite):
     def __init__(self, pos, groups, surf = pygame.Surface((TILE_SIZE, TILE_SIZE))) -> None:
         super().__init__(groups)
+        self.sprite_type = 'tile'
         self.image = surf
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect
@@ -16,6 +17,7 @@ class Tile(pygame.sprite.Sprite):
 class BottomTile(pygame.sprite.Sprite):
     def __init__(self, pos, groups, surf = pygame.Surface((TILE_SIZE, TILE_SIZE))) -> None:
         super().__init__(groups)
+        self.sprite_type = 'tile'
         self.image = surf
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect.inflate(-8, -(self.rect.height//2))
@@ -28,6 +30,7 @@ class BottomTile(pygame.sprite.Sprite):
 class WaterTile(Tile):
     def __init__(self, pos, groups, surf=pygame.Surface((TILE_SIZE, TILE_SIZE))) -> None:
         super().__init__(pos, groups, surf)
+        self.sprite_type = 'water'
         self.frame = 0
         self.import_water_assets()
         self.frame_index = random.randint(0, 3)

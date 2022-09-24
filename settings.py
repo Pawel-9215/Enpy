@@ -48,3 +48,4 @@ class State(Enum):
     MOVE = 1
     ATTACK = 2
     DEAD = 3
+    FOLLOW = 4

@@ -60,7 +60,7 @@ class Level:
                         self.end_attack,
                         self.create_magic)
             elif obj.name == "undead":
-                Enemy(obj.name, (obj.x, obj.y), self.visible_sprites, self.obstacle_sprites)
+                Enemy(obj.name, (obj.x, obj.y), self.obstacle_sprites, self.visible_sprites)
             elif obj.name == "bulding":
                 BottomTile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
             elif obj.name == "blocker":
