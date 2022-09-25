@@ -27,7 +27,7 @@ class Player(Entity):
         self.state = State.MOVE
 
         #self.attacking = False #deprecated
-        self.attack_cooldown = 400
+        self.attack_cooldown = 300
         self.attack_time = None
         self.create_attack = create_attack
         self.end_attack = end_attack

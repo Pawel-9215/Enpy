@@ -77,6 +77,8 @@ class Enemy(Entity):
         distance_to_player = self.get_distance_to_player()[0]
 
         if distance_to_player <= self.attack_radius and self.state is not State.ATTACK:
+            print("bah bah!")
+            self.attack_time = pygame.time.get_ticks()
             self.change_state(State.ATTACK)
 
         elif distance_to_player <= self.notice_radius and self.state is not State.FOLLOW:
@@ -137,11 +139,12 @@ class Enemy(Entity):
         self.direction = pygame.math.Vector2()
         self.move(self.speed)
         # self.cooldowns()
-        self.get_action()
         self.get_status()
+        self.get_action()
 
     def attack_state(self):
-        pass
+        self.get_status()
+        self.cooldowns()
 
     def dead_state(self):
         pass

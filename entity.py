@@ -22,9 +22,9 @@ class Entity(pygame.sprite.Sprite):
         self.collision('vertical')
         self.rect.midbottom = self.hitbox.midbottom
 
-        if self.direction.x > 0:
+        if self.direction.x > 0.5:
             self.facing = "right"
-        elif self.direction.x < 0:
+        elif self.direction.x < -0.5:
             self.facing = "left"
         elif self.direction.y < 0:
             self.facing = "up"
