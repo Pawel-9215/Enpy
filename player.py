@@ -16,8 +16,8 @@ class Player(Entity):
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(-4, -8)
         self.hitbox.bottom = self.rect.bottom
+        self.fractional_position = [self.hitbox.x, self.hitbox.y]
         self.buttons_pressed = []
-        self.set_position()
 
         #graphics setup
         self.import_player_assets()

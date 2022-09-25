@@ -7,10 +7,6 @@ class Entity(pygame.sprite.Sprite):
         self.animation_speed = 0.15
         self.direction = pygame.math.Vector2()
         self.facing = "down"
-        self.rect = self.get_rect()
-        self.hitbox = self.rect.inflate(-4, -8)
-        self.hitbox.bottom = self.rect.bottom
-        self.fractional_position = [self.hitbox.x, self.hitbox.y]
         
 
     def move(self, speed):
@@ -37,9 +33,6 @@ class Entity(pygame.sprite.Sprite):
 
         #debug("\n\n"+str(self.direction))
 
-    def set_position(self):
-        self.fractional_position = [self.hitbox.x, self.hitbox.y]
-        print(self.fractional_position)
 
     def collision(self, direction):
         if direction == 'horizontal':

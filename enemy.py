@@ -28,7 +28,8 @@ class Enemy(Entity):
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect.inflate(-4, -8)
         self.hitbox.bottom = self.rect.bottom
-        self.set_position()
+        self.fractional_position = [self.hitbox.x, self.hitbox.y]
+
 
         #enemy_stats
         self.attack_time = None
