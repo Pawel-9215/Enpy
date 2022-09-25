@@ -48,7 +48,7 @@ class Player(Entity):
                 'energy': 60, 
                 'attack': 10, 
                 'magic': 6, 
-                'speed': 1}
+                'speed': 2}
 
         self.health = self.stats['health'] // 2
         self.energy = self.stats['energy'] // 2

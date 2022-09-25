@@ -6,7 +6,7 @@ monster_data = {
         'damage': 20, 
         'attack_type': 'slash', 
         'attack_sound': './sfx/sword.wav', 
-        'speed':2, 
+        'speed':1.5, 
         'resistance': 3, 
         'attack_radius': 16, 
         'notice_radius': 120},

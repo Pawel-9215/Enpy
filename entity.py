@@ -42,6 +42,7 @@ class Entity(pygame.sprite.Sprite):
                         self.hitbox.right = sprite.hitbox.left
                     elif self.direction.x < 0:  # moving left
                         self.hitbox.left = sprite.hitbox.right
+                    self.fractional_position = [self.hitbox.x, self.hitbox.y]
 
         if direction == 'vertical':
             for sprite in self.obstacle_sprites:
@@ -50,3 +51,4 @@ class Entity(pygame.sprite.Sprite):
                         self.hitbox.bottom = sprite.hitbox.top
                     if self.direction.y < 0:  # moving up
                         self.hitbox.top = sprite.hitbox.bottom
+                    self.fractional_position = [self.hitbox.x, self.hitbox.y]
