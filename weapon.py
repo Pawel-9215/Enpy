@@ -5,11 +5,12 @@ class Weapon(pygame.sprite.Sprite):
     def __init__(self, player, *groups) -> None:
         super().__init__(*groups)
         self.direction = player.facing
-        #print(self.direction)
-
+        #print(self.direction
         #graphic
         full_path = weapon_data[player.weapon]['graphic']+"SpriteInHand.png"
         self.image = pygame.image.load(full_path).convert_alpha()
+
+        self.sprite_type = 'weapon'
 
         #placement
         match self.direction:

@@ -101,6 +101,18 @@ class Enemy(Entity):
 
         return (distance, direction)
 
+    def get_damage(self, player, sprite_type):
+        if sprite_type == 'weapon':
+            self.health -= player.get_full_weapon_damage()
+        else:
+            pass # magic
+
+        self.is_alive()
+
+    def is_alive(self):
+        print('enemy health: ', self.health)
+        if self.health <= 0:
+            self.change_state(State.DEAD)
 
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
@@ -147,7 +159,7 @@ class Enemy(Entity):
         self.cooldowns()
 
     def dead_state(self):
-        pass
+        self.status = 'dead'
 
     def follow_state(self):
         self.direction = self.get_distance_to_player()[1]

@@ -27,7 +27,6 @@ class Player(Entity):
         self.state = State.MOVE
 
         #self.attacking = False #deprecated
-        self.attack_cooldown = 300
         self.attack_time = None
         self.create_attack = create_attack
         self.end_attack = end_attack
@@ -37,6 +36,7 @@ class Player(Entity):
         #equipment
         self.weapon_index = 0
         self.weapon = list(weapon_data.keys())[self.weapon_index]
+        self.attack_cooldown = 300 + weapon_data[self.weapon]['cooldown']
 
         #magic
         self.magic_index = 0
@@ -120,6 +120,8 @@ class Player(Entity):
                 self.weapon_index = 0
             self.weapon = list(weapon_data.keys())[self.weapon_index]
 
+            self.attack_cooldown = weapon_data[self.weapon]['cooldown']+300-self.speed
+
         elif not keys[pygame.K_q] and pygame.K_q in self.buttons_pressed:
             self.buttons_pressed.remove(pygame.K_q)
 
@@ -137,7 +139,6 @@ class Player(Entity):
         elif not keys[pygame.K_e] and pygame.K_e in self.buttons_pressed:
             self.buttons_pressed.remove(pygame.K_e)
             
-
 
     def get_status(self):
         #idle
@@ -171,6 +172,11 @@ class Player(Entity):
             self.frame_index = 0
 
         self.image = animation[int(self.frame_index)]
+
+    def get_full_weapon_damage(self):
+        full_damage = self.stats['attack'] + weapon_data[self.weapon]['damage']
+
+        return full_damage
 
     def change_state(self, state: State):
         self.state = state
