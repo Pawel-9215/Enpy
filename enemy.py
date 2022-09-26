@@ -11,7 +11,7 @@ class Enemy(Entity):
         self.sprite_type = 'enemy'
         self.name = monster_name
         self.obstacle_sprites = obstacle_sprites
-        for group in groups:
+        for group in groups[0]:
             for sprite in group:
                 if sprite.sprite_type == 'player':
                     # print('found player!')

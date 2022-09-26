@@ -24,6 +24,9 @@ class Level:
         #attack sprites
         self.current_attack = None
 
+        self.attack_sprites = pygame.sprite.Group()
+        self.target_sprites = pygame.sprite.Group()
+
         # sprite setup
         self.create_map()
 
@@ -60,14 +63,14 @@ class Level:
                         self.end_attack,
                         self.create_magic)
             elif obj.name == "undead":
-                Enemy(obj.name, (obj.x, obj.y), self.obstacle_sprites, self.visible_sprites)
+                Enemy(obj.name, (obj.x, obj.y), self.obstacle_sprites, [self.visible_sprites, self.target_sprites])
             elif obj.name == "bulding":
                 BottomTile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
             elif obj.name == "blocker":
                 Tile((obj.x, obj.y), self.obstacle_sprites, surf = obj.image)
 
     def create_attak(self):
-        self.current_attack = Weapon(self.player, [self.visible_sprites])
+        self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
 
     def end_attack(self):
         if self.current_attack:
@@ -80,11 +83,20 @@ class Level:
         print(strength)
         print(cost)
 
+    def player_attack_logic(self):
+        if self.attack_sprites:
+            for attack_sprite in self.attack_sprites:
+                collision_sprites = pygame.sprite.spritecollide(attack_sprite, self.target_sprites, True)
+                if collision_sprites:
+                    for target_sprite in collision_sprites:
+                        target_sprite.kill()
+
     def run(self):
 
         self.ground_sprites.custom_draw(self.player)
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
+        self.player_attack_logic()
         #debug(self.player.direction)
         # update and run the game
         #debug(self.player.status)
