@@ -33,6 +33,7 @@ class Enemy(Entity):
 
         #enemy_stats
         self.attack_time = None
+        self.hurt_time = None
         self.enemy_stats = monster_data[self.name]
 
         self.attack_cooldown = self.enemy_stats['speed'] * 200
@@ -41,6 +42,7 @@ class Enemy(Entity):
         self.damage = self.enemy_stats['damage']
         self.attack_type = self.enemy_stats['attack_type']
         self.speed = self.enemy_stats['speed']
+        self.hurt_cooldown = self.enemy_stats['hurt_cooldown']
         self.resistance = self.enemy_stats['resistance']
         self.attack_radius = self.enemy_stats['attack_radius']
         self.notice_radius = self.enemy_stats['notice_radius']
@@ -102,12 +104,15 @@ class Enemy(Entity):
         return (distance, direction)
 
     def get_damage(self, player, sprite_type):
-        if sprite_type == 'weapon':
-            self.health -= player.get_full_weapon_damage()
-        else:
-            pass # magic
-
-        self.is_alive()
+        if self.state != State.HURT and self.state != State.DEAD:
+            self.change_state(State.HURT)
+            if sprite_type == 'weapon':
+                self.health -= player.get_full_weapon_damage()
+            else:
+                pass # magic
+            
+            self.hurt_time = pygame.time.get_ticks()
+            self.is_alive()
 
     def is_alive(self):
         print('enemy health: ', self.health)
@@ -119,6 +124,12 @@ class Enemy(Entity):
 
         if self.state == State.ATTACK:
             if current_time - self.attack_time >= self.attack_cooldown:
+                #self.attacking = False
+                self.change_state(State.MOVE)
+                #self.end_attack()
+
+        if self.state == State.HURT:
+            if current_time - self.hurt_time >= self.hurt_cooldown:
                 #self.attacking = False
                 self.change_state(State.MOVE)
                 #self.end_attack() 
@@ -144,6 +155,8 @@ class Enemy(Entity):
                 self.dead_state()
             case State.FOLLOW:
                 self.follow_state()
+            case State.HURT:
+                self.hurt_state()
 
         self.animate()
 
@@ -153,6 +166,13 @@ class Enemy(Entity):
         # self.cooldowns()
         self.get_status()
         self.get_action()
+
+    def hurt_state(self):
+        self.direction = pygame.math.Vector2()
+        self.move(self.speed)
+        self.cooldowns()
+        self.get_status()
+
 
     def attack_state(self):
         self.get_status()

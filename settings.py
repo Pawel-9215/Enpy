@@ -49,3 +49,4 @@ class State(Enum):
     ATTACK = 2
     DEAD = 3
     FOLLOW = 4
+    HURT = 5
