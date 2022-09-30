@@ -190,7 +190,7 @@ class Player(Entity):
                 self.attack_state()
             case State.DEAD:
                 self.dead_state()
-        debug(self.direction)
+        #debug(type(self.direction.magnitude()))
         self.animate()
 
     def move_state(self):
