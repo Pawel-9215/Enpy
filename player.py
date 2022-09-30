@@ -182,7 +182,7 @@ class Player(Entity):
         self.state = state
 
     def update(self):
-        debug(self.hitbox.center)
+        #debug(self.hitbox.center)
         match self.state:
             case State.MOVE:
                 self.move_state()
@@ -190,7 +190,7 @@ class Player(Entity):
                 self.attack_state()
             case State.DEAD:
                 self.dead_state()
-
+        debug(self.direction)
         self.animate()
 
     def move_state(self):

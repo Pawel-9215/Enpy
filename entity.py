@@ -1,4 +1,5 @@
 import pygame
+from debug import *
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self, *groups) -> None:
@@ -6,27 +7,22 @@ class Entity(pygame.sprite.Sprite):
         self.frame_index = 0
         self.animation_speed = 0.15
         self.direction = pygame.math.Vector2()
+        self.last_direction = pygame.math.Vector2()
         self.facing = "down"
         self.current_speed = 0
-        self.acceleration = 0.1
-        self.friction = 0.2
+        self.acceleration = 0.01
+        self.friction = 0.01
         
 
     def move(self, speed):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
-
-        if self.direction != pygame.math.Vector2([0,0]):
-            self.current_speed += self.acceleration
-            if self.current_speed >= speed:
-                self.current_speed = speed
-        if self.direction:
-            pass
-
+        
+        
         # self.rect.center += self.direction * speed
-        self.fractional_position[0] += self.direction.x * self.current_speed
-        self.fractional_position[1] += self.direction.y * self.current_speed
-
+        self.fractional_position[0] += self.direction.x * self.speed
+        self.fractional_position[1] += self.direction.y * self.speed
+        
         self.hitbox.x = self.fractional_position[0]
         self.collision('horizontal')
         self.hitbox.y = self.fractional_position[1]
