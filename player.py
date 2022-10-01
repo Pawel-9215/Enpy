@@ -70,7 +70,6 @@ class Player(Entity):
         for animation in self.animations:
             full_path = os.path.join(character_path, animation)
             self.animations[animation] = import_folder(full_path)
-        #print(self.animations)
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -167,10 +166,12 @@ class Player(Entity):
         animation = self.animations[self.status]
 
         #loop over the frame index
+        
         self.frame_index += self.animation_speed
+
         if self.frame_index >= len(animation):
             self.frame_index = 0
-
+        debug(int(self.frame_index))
         self.image = animation[int(self.frame_index)]
 
     def get_full_weapon_damage(self):
