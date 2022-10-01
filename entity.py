@@ -1,5 +1,6 @@
 import pygame
 from debug import *
+from support import lerp, move_towards
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self, *groups) -> None:
@@ -7,21 +8,23 @@ class Entity(pygame.sprite.Sprite):
         self.frame_index = 0
         self.animation_speed = 0.15
         self.direction = pygame.math.Vector2()
-        self.last_direction = pygame.math.Vector2()
+        self.current_movement = pygame.math.Vector2()
         self.facing = "down"
-        self.current_speed = 0
-        self.acceleration = 0.01
-        self.friction = 0.01
+        self.current_speed = 0.0
+        self.acceleration = 0.1
+        self.friction = 0.1
         
 
     def move(self, speed):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
         
+        self.current_movement.x = move_towards(self.current_movement.x, self.direction.x, self.acceleration, 0.1)
+        self.current_movement.y = move_towards(self.current_movement.y, self.direction.y, self.acceleration, 0.1)
         
         # self.rect.center += self.direction * speed
-        self.fractional_position[0] += self.direction.x * self.speed
-        self.fractional_position[1] += self.direction.y * self.speed
+        self.fractional_position[0] += self.current_movement.x * self.speed
+        self.fractional_position[1] += self.current_movement.y * self.speed
         
         self.hitbox.x = self.fractional_position[0]
         self.collision('horizontal')
@@ -45,17 +48,21 @@ class Entity(pygame.sprite.Sprite):
         if direction == 'horizontal':
             for sprite in self.obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
-                    if self.direction.x > 0:  # moving right
+                    if self.current_movement.x > 0:  # moving right
                         self.hitbox.right = sprite.hitbox.left
-                    elif self.direction.x < 0:  # moving left
+                        self.current_movement.x = 0
+                    elif self.current_movement.x < 0:  # moving left
                         self.hitbox.left = sprite.hitbox.right
+                        self.current_movement.x = 0
                     self.fractional_position = [self.hitbox.x, self.hitbox.y]
 
         if direction == 'vertical':
             for sprite in self.obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
-                    if self.direction.y > 0:  # moving down
+                    if self.current_movement.y > 0:  # moving down
                         self.hitbox.bottom = sprite.hitbox.top
-                    if self.direction.y < 0:  # moving up
+                        self.current_movement.y = 0
+                    if self.current_movement.y < 0:  # moving up
                         self.hitbox.top = sprite.hitbox.bottom
+                        self.current_movement.y = 0
                     self.fractional_position = [self.hitbox.x, self.hitbox.y]

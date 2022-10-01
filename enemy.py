@@ -104,6 +104,7 @@ class Enemy(Entity):
         return (distance, direction)
 
     def get_damage(self, player, sprite_type):
+        self.pushback(player)
         if self.state != State.HURT and self.state != State.DEAD:
             self.change_state(State.HURT)
             if sprite_type == 'weapon':
@@ -113,6 +114,11 @@ class Enemy(Entity):
             
             self.hurt_time = pygame.time.get_ticks()
             self.is_alive()
+
+    def pushback(self, player):
+        # get vector to player
+        _, dir = self.get_distance_to_player()
+        self.current_movement = -dir
 
     def is_alive(self):
         print('enemy health: ', self.health)
