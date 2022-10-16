@@ -13,6 +13,7 @@ class Entity(pygame.sprite.Sprite):
         self.current_speed = 0.0
         self.acceleration = 0.1
         self.friction = 0.1
+        self.active_triggers = []
         
 
     def move(self, speed):
@@ -46,8 +47,13 @@ class Entity(pygame.sprite.Sprite):
     def trigger_detect(self):
         for sprite in self.trigger_sprites:
             if sprite.hitbox.colliderect(self.hitbox):
-                print("Trigger Activated!")
+                self.active_triggers.append(sprite)
+                # print("Trigger Activated!")
                 sprite.trigger()
+        for sprite in self.active_triggers:
+            if not sprite.hitbox.colliderect(self.hitbox):
+                sprite.armed = True
+                self.active_triggers.remove(sprite)
                 
     def collision(self, direction):
         if direction == 'horizontal':

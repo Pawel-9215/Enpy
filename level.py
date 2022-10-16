@@ -11,10 +11,11 @@ from enemy import Enemy
 
 
 class Level:
-    def __init__(self) -> None:
+    def __init__(self, engine, map) -> None:
 
         self.player = None
         self.display_surface = pygame.display.get_surface()
+        self.engine = engine
 
         # sprite groups setup
         self.ground_sprites = CameraGroup()
@@ -29,7 +30,7 @@ class Level:
         self.target_sprites = pygame.sprite.Group()
 
         # sprite setup
-        self.create_map('ruins_1')
+        self.create_map(map)
 
         #user interface
         self.ui = UI()
@@ -70,7 +71,7 @@ class Level:
                         self.end_attack,
                         self.create_magic)
             elif obj.name == "undead":
-                Enemy(obj.name, (obj.x, obj.y), self.obstacle_sprites, [self.visible_sprites, self.target_sprites])
+                Enemy(obj.name, (obj.x, obj.y), self.obstacle_sprites, self.trigger_sprites, [self.visible_sprites, self.target_sprites])
             elif obj.name in ['building', 'house']:
                 BottomTile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
             elif obj.name == "blocker":
@@ -85,6 +86,10 @@ class Level:
 
     def change_map(self):
         print('Level function - change level')
+        self.engine.running = False
+        self.engine.level = Level(self.engine, 'combat_tests')
+        self.engine.running = True
+        del self
 
     def end_attack(self):
         if self.current_attack:

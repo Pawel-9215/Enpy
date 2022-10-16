@@ -32,13 +32,16 @@ class TriggerTile(Tile):
         super().__init__(pos, groups, surf)
         self.function = function
         self.args = args
+        self.armed = True
 
     def trigger(self):
-        print('Trigger tile function, activated')
-        if self.args != None:
-            self.function(*self.args)
-        else:
-            self.function()
+        if self.armed:
+            self.armed = False
+            print('Trigger tile function, activated')
+            if self.args != None:
+                self.function(*self.args)
+            else:
+                self.function()
 
 class WaterTile(Tile):
     def __init__(self, pos, groups, surf=pygame.Surface((TILE_SIZE, TILE_SIZE))) -> None:

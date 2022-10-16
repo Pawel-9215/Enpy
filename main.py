@@ -16,7 +16,8 @@ class Engine:
         # general setup for pygameq
         self.screen = pygame.display.set_mode(RESOLUTION, HWSURFACE|DOUBLEBUF|RESIZABLE|SCALED)
         self.clock = pygame.time.Clock()
-        self.level = Level()
+        self.level = Level(self, 'ruins_1')
+        self.running = True
 
         pygame.display.set_caption(TITLE)
 
@@ -28,7 +29,8 @@ class Engine:
                     sys.exit()
                 
             self.screen.fill('#3D897B')
-            self.level.run()
+            if self.running:
+                self.level.run()
             debug(self.clock.get_fps())
             pygame.display.update()
             self.clock.tick(FPS)
