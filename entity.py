@@ -43,7 +43,12 @@ class Entity(pygame.sprite.Sprite):
 
         #debug("\n\n"+str(self.direction))
 
-
+    def trigger_detect(self):
+        for sprite in self.trigger_sprites:
+            if sprite.hitbox.colliderect(self.hitbox):
+                print("Trigger Activated!")
+                sprite.trigger()
+                
     def collision(self, direction):
         if direction == 'horizontal':
             for sprite in self.obstacle_sprites:

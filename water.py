@@ -16,8 +16,8 @@ class Water():
     def populate(self):
         random.seed(None)
         #first_sin_input = random.randint(1,90)
-        for i in range(6):
-            point_xy = pygame.Vector2(self.position.x+random.randint(2, 32)+i*random.randint(6, 9), self.position.y+random.randint(12, 52))
+        for i in range(2):
+            point_xy = pygame.Vector2(self.position.x+random.randint(1, 8)+i*random.randint(3, 8), self.position.y+random.randint(2, 16))
             self.points.append([point_xy, random.randint(1,359)])
 
     def wave(self, point: pygame.Vector2, sin_input: int):

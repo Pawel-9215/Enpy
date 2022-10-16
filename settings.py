@@ -3,11 +3,11 @@ from enum import Enum
 
 TITLE = "Zelda - like"
 
-RESOLUTION = [640, 480]
+RESOLUTION = [512, 320]
 FPS = 60
-TILE_SIZE = 64
+TILE_SIZE = 16
 TILE_COLLISION = 16
-RENDER_DIST = 512
+RENDER_DIST = 256
 
 #weapons
 weapon_data = {

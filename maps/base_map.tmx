@@ -167,7 +167,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="8" name="blockers">
+ <objectgroup id="8" name="blockers" visible="0">
   <object id="22" name="blocker" gid="262" x="877.273" y="1082.73" width="16" height="16"/>
   <object id="23" name="blocker" gid="262" x="894" y="1082.36" width="16" height="16"/>
   <object id="24" name="blocker" gid="262" x="910.545" y="1082.36" width="16" height="16"/>

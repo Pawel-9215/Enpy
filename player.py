@@ -8,7 +8,7 @@ from enum import Enum
 from entity import Entity
 
 class Player(Entity):
-    def __init__(self, pos, groups, obstacle_sprites, create_attack, end_attack, create_magic) -> None:
+    def __init__(self, pos, groups, obstacle_sprites, trigger_sprites, create_attack, end_attack, create_magic) -> None:
         super().__init__(groups)
         self.sprite_type = 'player'
         self.tile_size = 16
@@ -32,6 +32,7 @@ class Player(Entity):
         self.end_attack = end_attack
 
         self.obstacle_sprites = obstacle_sprites
+        self.trigger_sprites = trigger_sprites
 
         #equipment
         self.weapon_index = 0
@@ -171,7 +172,7 @@ class Player(Entity):
 
         if self.frame_index >= len(animation):
             self.frame_index = 0
-        debug(int(self.frame_index))
+        #debug(int(self.frame_index))
         self.image = animation[int(self.frame_index)]
 
     def get_full_weapon_damage(self):
@@ -199,6 +200,7 @@ class Player(Entity):
         self.move(self.speed)
         self.cooldowns()
         self.get_status()
+        self.trigger_detect()
 
     def attack_state(self):
         #self.input()

@@ -29,7 +29,7 @@ class Engine:
                 
             self.screen.fill('#3D897B')
             self.level.run()
-            #debug(self.clock.get_fps())
+            debug(self.clock.get_fps())
             pygame.display.update()
             self.clock.tick(FPS)
 

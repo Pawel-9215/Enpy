@@ -6,11 +6,12 @@ from support import *
 from debug import *
 
 class Enemy(Entity):
-    def __init__(self, monster_name, pos, obstacle_sprites, *groups) -> None:
+    def __init__(self, monster_name, pos, obstacle_sprites, trigger_sprites, *groups) -> None:
         super().__init__(*groups)
         self.sprite_type = 'enemy'
         self.name = monster_name
         self.obstacle_sprites = obstacle_sprites
+        self.trigger_sprites = trigger_sprites
         for group in groups[0]:
             for sprite in group:
                 if sprite.sprite_type == 'player':

@@ -1,6 +1,6 @@
 import pygame
 from settings import *
-from tile import Tile, BottomTile, WaterTile
+from tile import Tile, BottomTile, TriggerTile, WaterTile
 from player import Player
 from debug import debug
 from pytmx.util_pygame import load_pygame
@@ -20,6 +20,7 @@ class Level:
         self.ground_sprites = CameraGroup()
         self.visible_sprites = YSortCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
+        self.trigger_sprites = pygame.sprite.Group()
 
         #attack sprites
         self.current_attack = None
@@ -28,24 +29,29 @@ class Level:
         self.target_sprites = pygame.sprite.Group()
 
         # sprite setup
-        self.create_map()
+        self.create_map('ruins_1')
 
         #user interface
         self.ui = UI()
 
-    def create_map(self):
+    def create_map(self, level):
         """_summary_
         Load tmx file from map generated using Tiled
         """
-        tmx_data = load_pygame('./maps/base_map.tmx')
+        tmx_data = load_pygame(f'./maps/{level}.tmx')
+        self.lvl_width = tmx_data.width*TILE_SIZE
+        self.lvl_height = tmx_data.height*TILE_SIZE
 
         for layer in tmx_data.visible_layers:
-            if layer.name in ('base_ground', 'road'):
+            if layer.name in ('base_ground', 'base_ground_elements'):
                 for x, y, surf in layer.tiles():
                     Tile((x*TILE_SIZE, y*TILE_SIZE), (self.ground_sprites), surf)
             elif layer.name in ('plants_and_rocks'):
                 for x, y, surf in layer.tiles():
                     BottomTile((x*TILE_SIZE, y*TILE_SIZE), (self.visible_sprites), surf)
+            elif layer.name in ('base_ground_blocking'):
+                for x, y, surf in layer.tiles():
+                    Tile((x*TILE_SIZE, y*TILE_SIZE), (self.visible_sprites, self.obstacle_sprites), surf)
             elif layer.name == 'large_blockers':
                 #print(layer)
                 for x, y, surf in layer.tiles():
@@ -59,18 +65,26 @@ class Level:
                 self.player = Player((obj.x, obj.y), 
                         self.visible_sprites, 
                         self.obstacle_sprites, 
+                        self.trigger_sprites,
                         self.create_attak, 
                         self.end_attack,
                         self.create_magic)
             elif obj.name == "undead":
                 Enemy(obj.name, (obj.x, obj.y), self.obstacle_sprites, [self.visible_sprites, self.target_sprites])
-            elif obj.name == "bulding":
+            elif obj.name in ['building', 'house']:
                 BottomTile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
             elif obj.name == "blocker":
                 Tile((obj.x, obj.y), self.obstacle_sprites, surf = obj.image)
+            elif obj.name == 'tree':
+                BottomTile((obj.x, obj.y), self.visible_sprites, surf = obj.image)
+            elif obj.name == 'level_trigger':
+                TriggerTile((obj.x, obj.y), [self.trigger_sprites, self.visible_sprites], self.change_map, None, obj.image)
 
     def create_attak(self):
         self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
+
+    def change_map(self):
+        print('Level function - change level')
 
     def end_attack(self):
         if self.current_attack:
@@ -93,8 +107,8 @@ class Level:
 
     def run(self):
 
-        self.ground_sprites.custom_draw(self.player)
-        self.visible_sprites.custom_draw(self.player)
+        self.ground_sprites.custom_draw(self.player, (self.lvl_width, self.lvl_height))
+        self.visible_sprites.custom_draw(self.player, (self.lvl_width, self.lvl_height))
         self.visible_sprites.update()
         self.player_attack_logic()
         #debug(self.player.direction)
@@ -118,15 +132,18 @@ class CameraGroup(pygame.sprite.Group):
 
         #for sprite in self.sprites():
         for water in self.water_group:
-            if (water.position - pygame.Vector2(player.rect.center)).length() < RENDER_DIST:
+            if (water.position - pygame.Vector2(player.rect.center)).length() < RENDER_DIST//1.5:
                 water.update()
                 water.render(self.offset, self.display_surface)
 
-    def custom_draw(self, player):
+    def custom_draw(self, player, bounds):
         
         # getting offset from player
-        self.offset.x = player.rect.centerx - self.half_width
-        self.offset.y = player.rect.centery - self.half_height
+        if 0 + RESOLUTION[0]//2 < player.rect.centerx < bounds[0] - RESOLUTION[0]//2:
+            self.offset.x = player.rect.centerx - self.half_width
+
+        if 0 + RESOLUTION[1]//2 < player.rect.centery < bounds[1] - RESOLUTION[1]//2:
+            self.offset.y = player.rect.centery - self.half_height
 
         self.water_draw(player, self.offset)
 
@@ -146,11 +163,14 @@ class YSortCameraGroup(CameraGroup):
         self.half_height = self.display_surface.get_size()[1] // 2
         self.offset = pygame.math.Vector2()
 
-    def custom_draw(self, player):
+    def custom_draw(self, player, bounds):
 
         # getting offset from player
-        self.offset.x = player.rect.centerx - self.half_width
-        self.offset.y = player.rect.centery - self.half_height
+        if 0 + RESOLUTION[0]//2 < player.rect.centerx < bounds[0] - RESOLUTION[0]//2:
+            self.offset.x = player.rect.centerx - self.half_width
+
+        if 0 + RESOLUTION[1]//2 < player.rect.centery < bounds[1] - RESOLUTION[1]//2:
+            self.offset.y = player.rect.centery - self.half_height
 
         #for sprite in self.sprites():
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.hitbox.centery):
