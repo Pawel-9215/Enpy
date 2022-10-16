@@ -66,7 +66,7 @@ class Player(Entity):
         self.animations = {'up_move':[], 'down_move':[], 'left_move':[], 'right_move':[],
             'right_idle':[], 'left_idle':[], 'up_idle':[], "down_idle":[],
             'right_attack': [], 'left_attack': [], 'up_attack':[], 'down_attack':[], 
-            'dead':[]}
+            'dead':[], 'hurt':[]}
 
         for animation in self.animations:
             full_path = os.path.join(character_path, animation)
@@ -154,6 +154,10 @@ class Player(Entity):
 
                 self.status = self.facing + "_" + "attack"
 
+        elif self.state == State.HURT:
+
+                self.status = "hurt"
+
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
 
@@ -162,6 +166,12 @@ class Player(Entity):
                 #self.attacking = False
                 self.change_state(State.MOVE)
                 self.end_attack()
+
+        if self.state == State.HURT:
+            if current_time - self.hurt_time >= self.hurt_cooldown:
+                #self.attacking = False
+                self.change_state(State.MOVE)
+                #self.end_attack()
 
     def animate(self):
         animation = self.animations[self.status]
@@ -192,6 +202,8 @@ class Player(Entity):
                 self.attack_state()
             case State.DEAD:
                 self.dead_state()
+            case State.HURT:
+                self.hurt_state()
         #debug(type(self.direction.magnitude()))
         self.animate()
 
@@ -210,4 +222,10 @@ class Player(Entity):
 
     def dead_state(self):
         pass
+
+    def hurt_state(self):
+        self.direction = pygame.math.Vector2()
+        self.move(self.speed)
+        self.cooldowns()
+        self.get_status()
 

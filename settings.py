@@ -7,7 +7,7 @@ RESOLUTION = [512, 320]
 FPS = 60
 TILE_SIZE = 16
 TILE_COLLISION = 16
-RENDER_DIST = 256
+RENDER_DIST = 340
 
 #weapons
 weapon_data = {

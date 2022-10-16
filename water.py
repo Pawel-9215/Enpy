@@ -16,7 +16,7 @@ class Water():
     def populate(self):
         random.seed(None)
         #first_sin_input = random.randint(1,90)
-        for i in range(2):
+        for i in range(1):
             point_xy = pygame.Vector2(self.position.x+random.randint(1, 8)+i*random.randint(3, 8), self.position.y+random.randint(2, 16))
             self.points.append([point_xy, random.randint(1,359)])
 

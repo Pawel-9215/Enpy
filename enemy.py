@@ -56,7 +56,7 @@ class Enemy(Entity):
         self.animations = {'up_move':[], 'down_move':[], 'left_move':[], 'right_move':[],
             'right_idle':[], 'left_idle':[], 'up_idle':[], "down_idle":[],
             'right_attack': [], 'left_attack': [], 'up_attack':[], 'down_attack':[], 
-            'dead':[]}
+            'dead':[], 'hurt':[]}
 
         main_path = f'./gfx/monsters/{self.name}/'
         for animation in self.animations.keys():
@@ -75,6 +75,10 @@ class Enemy(Entity):
         elif self.state == State.ATTACK:
 
                 self.status = self.facing + "_" + "attack"
+
+        elif self.state == State.HURT:
+
+                self.status = 'hurt'
 
     def get_action(self):
         distance_to_player = self.get_distance_to_player()[0]
@@ -186,6 +190,8 @@ class Enemy(Entity):
         self.cooldowns()
 
     def dead_state(self):
+        self.direction = pygame.math.Vector2()
+        self.move(self.speed)
         self.status = 'dead'
 
     def follow_state(self):
