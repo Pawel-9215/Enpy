@@ -5,6 +5,7 @@ import sys
 from level import Level
 from settings import *
 from debug import debug
+from profilehooks import profile
 
 
 class Engine:
@@ -20,7 +21,8 @@ class Engine:
         self.running = True
 
         pygame.display.set_caption(TITLE)
-
+        
+    @profile
     def run(self):
         while True:
             for event in pygame.event.get():
